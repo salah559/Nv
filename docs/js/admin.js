@@ -126,7 +126,7 @@ function loadProducts() {
     if (storedProducts) {
         products = JSON.parse(storedProducts);
     } else {
-        fetch('data/products.json')
+        fetch('./data/products.json')
             .then(res => res.json())
             .then(data => {
                 products = data;
@@ -286,7 +286,7 @@ function saveProduct(e) {
     
     localStorage.setItem('adminProducts', JSON.stringify(products));
     
-    fetch('data/products.json')
+    fetch('./data/products.json')
         .then(res => res.json())
         .then(originalProducts => {
             const publicProducts = [...originalProducts];

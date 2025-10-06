@@ -7,7 +7,7 @@ if (cart.length !== (JSON.parse(localStorage.getItem('cart')) || []).length) {
 }
 
 async function loadAlgeriaData() {
-    const response = await fetch('data/algeria-locations.json');
+    const response = await fetch('./data/algeria-locations.json');
     algeriaData = await response.json();
 }
 

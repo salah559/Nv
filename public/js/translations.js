@@ -44,7 +44,10 @@ const translations = {
         reviewPlaceholder: 'اكتب رأيك (اختياري)',
         submitRating: 'إرسال التقييم',
         ratingSuccess: 'تم إرسال تقييمك بنجاح!',
-        ratingError: 'حدث خطأ في إرسال التقييم'
+        ratingError: 'حدث خطأ في إرسال التقييم',
+        visitUs: 'زوروا متجرنا',
+        locationDesc: 'نحن في انتظاركم في موقعنا لتجربة تسوق فريدة',
+        messageSent: 'تم إرسال رسالتك بنجاح!'
     },
     fr: {
         siteName: 'NovaFashion',
@@ -91,7 +94,10 @@ const translations = {
         reviewPlaceholder: 'Votre avis (optionnel)',
         submitRating: 'Envoyer',
         ratingSuccess: 'Votre évaluation a été envoyée!',
-        ratingError: 'Erreur lors de l\'envoi'
+        ratingError: 'Erreur lors de l\'envoi',
+        visitUs: 'Visitez notre magasin',
+        locationDesc: 'Nous vous attendons pour une expérience shopping unique',
+        messageSent: 'Votre message a été envoyé avec succès!'
     },
     en: {
         siteName: 'NovaFashion',
@@ -138,7 +144,10 @@ const translations = {
         reviewPlaceholder: 'Your review (optional)',
         submitRating: 'Submit Rating',
         ratingSuccess: 'Your rating has been submitted!',
-        ratingError: 'Error submitting rating'
+        ratingError: 'Error submitting rating',
+        visitUs: 'Visit Our Store',
+        locationDesc: 'We are waiting for you for a unique shopping experience',
+        messageSent: 'Your message has been sent successfully!'
     }
 };
 

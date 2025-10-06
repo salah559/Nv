@@ -32,13 +32,44 @@
 
     <section id="contact" class="contact">
         <h2 data-i18n="contactTitle">اتصل بنا</h2>
-        <form onsubmit="submitContact(event)">
-            <input type="text" data-i18n="name" placeholder="الاسم" required>
-            <input type="email" data-i18n="email" placeholder="البريد الإلكتروني" required>
-            <input type="tel" data-i18n="phone" placeholder="رقم الهاتف" required>
-            <textarea data-i18n="message" placeholder="رسالتك" required></textarea>
-            <button type="submit" class="btn" data-i18n="send">إرسال</button>
-        </form>
+        
+        <div class="contact-container">
+            <div class="contact-info">
+                <h3>معلومات الاتصال</h3>
+                <div class="info-item">
+                    <strong>📍 العنوان:</strong>
+                    <p>الجزائر العاصمة</p>
+                </div>
+                <div class="info-item">
+                    <strong>📞 الهاتف:</strong>
+                    <p dir="ltr">+213 XXX XXX XXX</p>
+                </div>
+                <div class="info-item">
+                    <strong>📧 البريد الإلكتروني:</strong>
+                    <p>contact@novafashion.dz</p>
+                </div>
+                <div class="info-item">
+                    <strong>🕒 ساعات العمل:</strong>
+                    <p>السبت - الخميس: 9:00 - 18:00</p>
+                    <p>الجمعة: مغلق</p>
+                </div>
+                <div class="info-item">
+                    <strong>💬 تابعونا:</strong>
+                    <p>Facebook | Instagram | TikTok</p>
+                </div>
+            </div>
+            
+            <div class="contact-form">
+                <h3>أرسل لنا رسالة</h3>
+                <form onsubmit="submitContact(event)">
+                    <input type="text" data-i18n="name" placeholder="الاسم" required>
+                    <input type="email" data-i18n="email" placeholder="البريد الإلكتروني" required>
+                    <input type="tel" data-i18n="phone" placeholder="رقم الهاتف" required>
+                    <textarea data-i18n="message" placeholder="رسالتك" required></textarea>
+                    <button type="submit" class="btn" data-i18n="send">إرسال</button>
+                </form>
+            </div>
+        </div>
     </section>
 
     <footer>

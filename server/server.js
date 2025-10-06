@@ -35,6 +35,7 @@ app.use('/api/', limiter);
 app.use('/api/admin/login', authLimiter);
 app.use(cors());
 app.use(bodyParser.json());
+app.use(express.static(path.resolve(__dirname, '../docs')));
 app.use('/public', express.static(path.resolve(__dirname, '../public')));
 
 const adminRoutes = require('./routes/admin')(readJSON, writeJSON, ADMINS_FILE);
@@ -48,34 +49,6 @@ app.use('/api/products', productsRoutes);
 app.use('/api/orders', ordersRoutes);
 app.use('/api/ratings', ratingsRoutes);
 app.use('/api/stats', statsRoutes);
-
-app.get('/admin.html', (req, res) => {
-    res.sendFile(path.join(__dirname, '../admin.html'));
-});
-
-app.get('/products.html', (req, res) => {
-    res.sendFile(path.join(__dirname, '../products.html'));
-});
-
-app.get('/about.html', (req, res) => {
-    res.sendFile(path.join(__dirname, '../about.html'));
-});
-
-app.get('/contact.html', (req, res) => {
-    res.sendFile(path.join(__dirname, '../contact.html'));
-});
-
-app.get('/data/algeria-locations.json', (req, res) => {
-    res.sendFile(path.join(__dirname, '../data/algeria-locations.json'));
-});
-
-app.get('/data/products.json', (req, res) => {
-    res.sendFile(path.join(__dirname, '../public/data/products.json'));
-});
-
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../index.html'));
-});
 
 app.listen(PORT, '0.0.0.0', async () => {
     await initializeAdmin(readJSON, writeJSON, ADMINS_FILE);

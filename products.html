@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NovaFashion - متجر الأناقة</title>
+    <title>NovaFashion - المنتجات</title>
     <link rel="stylesheet" href="public/css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,8 +17,8 @@
             </a>
             <nav>
                 <ul>
-                    <li><a href="index.html" data-i18n="home" class="active">الرئيسية</a></li>
-                    <li><a href="products.html" data-i18n="products">المنتجات</a></li>
+                    <li><a href="index.html" data-i18n="home">الرئيسية</a></li>
+                    <li><a href="products.html" data-i18n="products" class="active">المنتجات</a></li>
                     <li><a href="about.html" data-i18n="about">عن المتجر</a></li>
                     <li><a href="contact.html" data-i18n="contact">اتصل بنا</a></li>
                     <li><a href="#" class="cart-icon" onclick="showCart()" data-count="0">🛒 <span data-i18n="cart">السلة</span></a></li>
@@ -30,13 +30,28 @@
         </div>
     </header>
 
-    <section id="home" class="hero">
-        <div class="hero-overlay"></div>
-        <div class="hero-text">
-            <h2 data-i18n="heroTitle">أحدث صيحات الموضة بين يديك</h2>
-            <p data-i18n="heroSubtitle">اكتشف تشكيلتنا المميزة من الألبسة العصرية</p>
-            <a href="products.html" class="btn" data-i18n="shopNow">تسوق الآن</a>
+    <section id="products" class="products">
+        <h2 data-i18n="ourProducts">منتجاتنا</h2>
+        
+        <div class="filters-container">
+            <div class="search-box">
+                <input type="text" id="searchInput" data-i18n="searchPlaceholder" placeholder="ابحث عن منتج..." oninput="filterProducts()">
+            </div>
+            <div class="filters">
+                <select id="categoryFilter" onchange="filterProducts()">
+                    <option value="" data-i18n="allCategories">جميع الفئات</option>
+                </select>
+                <select id="priceFilter" onchange="filterProducts()">
+                    <option value="" data-i18n="allPrices">جميع الأسعار</option>
+                    <option value="0-2000">0 - 2000 دج</option>
+                    <option value="2000-5000">2000 - 5000 دج</option>
+                    <option value="5000-10000">5000 - 10000 دج</option>
+                    <option value="10000+">10000+ دج</option>
+                </select>
+            </div>
         </div>
+        
+        <div class="product-grid" id="productGrid"></div>
     </section>
 
     <footer>
@@ -99,7 +114,32 @@
         </div>
     </div>
 
+    <div id="ratingModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="hideRatingModal()">&times;</span>
+            <h2 data-i18n="rateProduct">قيّم المنتج</h2>
+            <p id="ratingProductName" class="product-name-rating"></p>
+            <form id="ratingForm" onsubmit="submitRating(event)">
+                <input type="hidden" id="ratingProductId" name="productId">
+                <div class="rating-input">
+                    <label data-i18n="rating">التقييم:</label>
+                    <select name="rating" required>
+                        <option value="">اختر التقييم</option>
+                        <option value="5">★★★★★ ممتاز</option>
+                        <option value="4">★★★★☆ جيد جداً</option>
+                        <option value="3">★★★☆☆ جيد</option>
+                        <option value="2">★★☆☆☆ مقبول</option>
+                        <option value="1">★☆☆☆☆ ضعيف</option>
+                    </select>
+                </div>
+                <textarea name="review" data-i18n="reviewPlaceholder" placeholder="اكتب رأيك (اختياري)" rows="4"></textarea>
+                <button type="submit" class="btn" data-i18n="submitRating">إرسال التقييم</button>
+            </form>
+        </div>
+    </div>
+
     <script src="public/js/translations.js"></script>
     <script src="public/js/cart.js"></script>
+    <script src="public/js/app.js"></script>
 </body>
 </html>

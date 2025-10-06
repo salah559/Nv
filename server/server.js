@@ -53,6 +53,18 @@ app.get('/admin.html', (req, res) => {
     res.sendFile(path.join(__dirname, '../admin.html'));
 });
 
+app.get('/products.html', (req, res) => {
+    res.sendFile(path.join(__dirname, '../products.html'));
+});
+
+app.get('/about.html', (req, res) => {
+    res.sendFile(path.join(__dirname, '../about.html'));
+});
+
+app.get('/contact.html', (req, res) => {
+    res.sendFile(path.join(__dirname, '../contact.html'));
+});
+
 app.get('/data/algeria-locations.json', (req, res) => {
     res.sendFile(path.join(__dirname, '../data/algeria-locations.json'));
 });

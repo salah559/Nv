@@ -1044,38 +1044,198 @@ footer {
 }
 
 @media (max-width: 768px) {
+    header {
+        padding: 15px 0;
+    }
+    
     header .container {
         flex-direction: column;
         gap: 15px;
+        width: 95%;
+    }
+    
+    .logo-image {
+        height: 50px;
     }
     
     nav ul {
         flex-wrap: wrap;
         justify-content: center;
+        gap: 8px;
+        padding: 0;
+    }
+    
+    nav ul li a {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+    }
+    
+    .language-switcher {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    
+    .lang-btn {
+        width: auto;
+        min-width: 100px;
+    }
+    
+    .hero {
+        min-height: 60vh;
+        padding: 40px 20px;
     }
     
     .hero-text h2 {
-        font-size: 2.2rem;
+        font-size: 1.8rem;
+        line-height: 1.3;
+    }
+    
+    .hero-text p {
+        font-size: 1rem;
+        margin: 15px 0;
+    }
+    
+    .hero-text .btn {
+        padding: 12px 30px;
+        font-size: 1rem;
+    }
+    
+    .products {
+        padding: 40px 15px;
+    }
+    
+    .products h2 {
+        font-size: 2rem;
     }
     
     .product-grid {
         grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 20px 10px;
+    }
+    
+    .product-card {
+        padding: 15px;
+    }
+    
+    .filters-container {
+        gap: 15px;
     }
     
     .filters {
         flex-direction: column;
+        gap: 10px;
     }
     
     .filters select {
         width: 100%;
     }
     
-    .contact-container {
-        grid-template-columns: 1fr;
-        gap: 30px;
+    .search-box input {
+        width: 100%;
+        font-size: 1rem;
+    }
+    
+    .about {
+        padding: 40px 20px;
+    }
+    
+    .about h2 {
+        font-size: 2rem;
+    }
+    
+    .about-content {
+        padding: 10px;
     }
     
     .about-features {
         grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .feature-item {
+        padding: 20px;
+    }
+    
+    .feature-item h3 {
+        font-size: 1.3rem;
+    }
+    
+    .contact {
+        padding: 40px 20px;
+    }
+    
+    .contact h2 {
+        font-size: 2rem;
+    }
+    
+    .contact-container {
+        grid-template-columns: 1fr;
+        gap: 25px;
+        padding: 10px;
+    }
+    
+    .contact-info,
+    .contact-form {
+        padding: 25px;
+    }
+    
+    .contact-info h3,
+    .contact-form h3 {
+        font-size: 1.5rem;
+    }
+    
+    .location-section {
+        padding: 40px 15px;
+    }
+    
+    .location-section h2 {
+        font-size: 2rem;
+    }
+    
+    .location-section p {
+        font-size: 1rem;
+    }
+    
+    .map-container {
+        border-radius: 10px;
+    }
+    
+    .map-container iframe {
+        height: 300px;
+    }
+    
+    .modal-content {
+        width: 95%;
+        margin: 10px;
+        padding: 20px;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+    
+    .modal-content h2 {
+        font-size: 1.5rem;
+    }
+    
+    .cart-summary,
+    .checkout-summary {
+        padding: 15px;
+    }
+    
+    footer {
+        padding: 20px 15px;
+        font-size: 0.9rem;
+    }
+    
+    .btn {
+        padding: 12px 25px;
+        font-size: 1rem;
+    }
+    
+    input,
+    textarea,
+    select {
+        font-size: 1rem;
     }
 }

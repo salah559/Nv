@@ -226,6 +226,10 @@ function showTab(tabName) {
     
     event.target.classList.add('active');
     document.getElementById(tabName + 'Tab').classList.add('active');
+    
+    if (tabName === 'delivery') {
+        loadDeliveryPrices();
+    }
 }
 
 function showAddProduct() {
@@ -250,11 +254,16 @@ function editProduct(id) {
     document.getElementById('price').value = product.price;
     document.getElementById('image').value = product.image;
     document.getElementById('category').value = product.category;
+    document.getElementById('sizes').value = product.sizes ? product.sizes.join(', ') : '';
+    document.getElementById('colors').value = product.colors ? product.colors.join(', ') : '';
     document.getElementById('productModal').style.display = 'flex';
 }
 
 function saveProduct(e) {
     e.preventDefault();
+    
+    const sizesInput = document.getElementById('sizes').value.trim();
+    const colorsInput = document.getElementById('colors').value.trim();
     
     const productData = {
         name: {
@@ -271,6 +280,13 @@ function saveProduct(e) {
         image: document.getElementById('image').value,
         category: document.getElementById('category').value
     };
+    
+    if (sizesInput) {
+        productData.sizes = sizesInput.split(',').map(s => s.trim()).filter(s => s);
+    }
+    if (colorsInput) {
+        productData.colors = colorsInput.split(',').map(c => c.trim()).filter(c => c);
+    }
     
     const productId = document.getElementById('productId').value;
     
@@ -319,4 +335,57 @@ function deleteProduct(id) {
 
 function closeProductModal() {
     document.getElementById('productModal').style.display = 'none';
+}
+
+function loadDeliveryPrices() {
+    fetch('./data/algeria-locations.json')
+        .then(res => res.json())
+        .then(data => {
+            displayDeliveryPrices(data);
+        })
+        .catch(err => {
+            console.error('Error loading delivery prices:', err);
+            document.getElementById('deliveryPricesList').innerHTML = '<p>حدث خطأ في تحميل البيانات</p>';
+        });
+}
+
+function displayDeliveryPrices(data) {
+    const list = document.getElementById('deliveryPricesList');
+    const deliveryPrices = JSON.parse(localStorage.getItem('deliveryPrices') || '{}');
+    const wilayas = data.wilayas || [];
+    const defaultPrices = data.shippingPrices || {};
+    
+    list.innerHTML = `
+        <div class="delivery-prices-grid">
+            ${wilayas.map(loc => {
+                const currentPrice = deliveryPrices[loc.code] || defaultPrices[loc.code] || 500;
+                return `
+                    <div class="delivery-item">
+                        <div class="wilaya-info">
+                            <strong>${loc.code} - ${loc.ar_name}</strong>
+                        </div>
+                        <div class="price-edit">
+                            <input type="number" 
+                                   id="delivery-${loc.code}" 
+                                   value="${currentPrice}" 
+                                   min="0" 
+                                   step="50"
+                                   onchange="updateDeliveryPrice('${loc.code}', this.value)"
+                                   style="padding: 8px; border-radius: 5px; border: 1px solid #ddd; width: 120px;">
+                            <span>دج</span>
+                        </div>
+                    </div>
+                `;
+            }).join('')}
+        </div>
+        <div style="margin-top: 20px; padding: 15px; background: #e8f5e9; border-radius: 8px;">
+            <p><strong>ملاحظة:</strong> التعديلات تُحفظ تلقائياً في المتصفح</p>
+        </div>
+    `;
+}
+
+function updateDeliveryPrice(wilayaCode, price) {
+    const deliveryPrices = JSON.parse(localStorage.getItem('deliveryPrices') || '{}');
+    deliveryPrices[wilayaCode] = parseInt(price);
+    localStorage.setItem('deliveryPrices', JSON.stringify(deliveryPrices));
 }

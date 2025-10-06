@@ -12,7 +12,12 @@ async function loadAlgeriaData() {
 }
 
 function addToCart(product) {
-    const existingItem = cart.find(item => item.id === product.id);
+    let existingItem = cart.find(item => 
+        item.id === product.id && 
+        item.selectedSize === product.selectedSize && 
+        item.selectedColor === product.selectedColor
+    );
+    
     if (existingItem) {
         existingItem.quantity += 1;
     } else {
@@ -23,16 +28,15 @@ function addToCart(product) {
     showNotification(t('addToCart') + '!');
 }
 
-function removeFromCart(productId) {
-    cart = cart.filter(item => item.id !== productId);
+function removeFromCart(index) {
+    cart.splice(index, 1);
     saveCart();
     updateCartUI();
 }
 
-function updateQuantity(productId, quantity) {
-    const item = cart.find(item => item.id === productId);
-    if (item) {
-        item.quantity = Math.max(1, quantity);
+function updateQuantity(index, quantity) {
+    if (cart[index]) {
+        cart[index].quantity = Math.max(1, quantity);
         saveCart();
         updateCartUI();
     }
@@ -49,7 +53,12 @@ function getCartTotal() {
 function getDeliveryPrice() {
     const wilayaSelect = document.getElementById('wilaya');
     if (!wilayaSelect || !wilayaSelect.value || !algeriaData) return 0;
-    return algeriaData.shippingPrices[wilayaSelect.value] || 500;
+    
+    const wilayaCode = wilayaSelect.value;
+    const customPrices = JSON.parse(localStorage.getItem('deliveryPrices') || '{}');
+    const defaultPrices = algeriaData.shippingPrices || {};
+    
+    return customPrices[wilayaCode] || defaultPrices[wilayaCode] || 500;
 }
 
 function updateCartUI() {
@@ -80,21 +89,23 @@ function showCart() {
         const total = getCartTotal();
         const delivery = getDeliveryPrice();
         
-        cartItems.innerHTML = cart.map(item => {
+        cartItems.innerHTML = cart.map((item, index) => {
             const itemName = item.name && typeof item.name === 'object' ? item.name[currentLang] : (item.name || 'منتج');
             return `
             <div class="cart-item">
                 <img src="${item.image || ''}" alt="${itemName}">
                 <div class="cart-item-details">
                     <h4>${itemName}</h4>
+                    ${item.selectedSize ? `<p><small>${t('size')}: ${item.selectedSize}</small></p>` : ''}
+                    ${item.selectedColor ? `<p><small>${t('color')}: ${item.selectedColor}</small></p>` : ''}
                     <p>${item.price} ${t('currency')}</p>
                     <div class="quantity-control">
-                        <button onclick="updateQuantity(${item.id}, ${item.quantity - 1})">-</button>
+                        <button onclick="updateQuantity(${index}, ${item.quantity - 1})">-</button>
                         <span>${item.quantity}</span>
-                        <button onclick="updateQuantity(${item.id}, ${item.quantity + 1})">+</button>
+                        <button onclick="updateQuantity(${index}, ${item.quantity + 1})">+</button>
                     </div>
                 </div>
-                <button class="remove-btn" onclick="removeFromCart(${item.id})">${t('remove')}</button>
+                <button class="remove-btn" onclick="removeFromCart(${index})">${t('remove')}</button>
             </div>
         `}).join('');
         
@@ -124,9 +135,10 @@ function populateWilayaSelect() {
     const select = document.getElementById('wilaya');
     if (!algeriaData || !select) return;
     
+    const wilayas = algeriaData.wilayas || [];
     select.innerHTML = `<option value="">${t('selectWilaya')}</option>` + 
-        algeriaData.wilayas.map(w => 
-            `<option value="${w.code}">${w[currentLang === 'en' ? 'name' : currentLang + '_name']}</option>`
+        wilayas.map(w => 
+            `<option value="${w.code}">${w.ar_name || w.name}</option>`
         ).join('');
     
     select.addEventListener('change', updateCheckoutSummary);

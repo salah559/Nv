@@ -44,7 +44,15 @@ const translations = {
         reviewPlaceholder: 'اكتب رأيك (اختياري)',
         submitRating: 'إرسال التقييم',
         ratingSuccess: 'تم إرسال تقييمك بنجاح!',
-        ratingError: 'حدث خطأ في إرسال التقييم'
+        ratingError: 'حدث خطأ في إرسال التقييم',
+        size: 'المقاس',
+        sizes: 'المقاسات',
+        color: 'اللون',
+        colors: 'الألوان',
+        selectSize: 'اختر المقاس',
+        selectColor: 'اختر اللون',
+        selectSizeFirst: 'الرجاء اختيار المقاس',
+        selectColorFirst: 'الرجاء اختيار اللون'
     },
     fr: {
         siteName: 'NovaFashion',
@@ -91,7 +99,15 @@ const translations = {
         reviewPlaceholder: 'Votre avis (optionnel)',
         submitRating: 'Envoyer',
         ratingSuccess: 'Votre évaluation a été envoyée!',
-        ratingError: 'Erreur lors de l\'envoi'
+        ratingError: 'Erreur lors de l\'envoi',
+        size: 'Taille',
+        sizes: 'Tailles',
+        color: 'Couleur',
+        colors: 'Couleurs',
+        selectSize: 'Choisir la taille',
+        selectColor: 'Choisir la couleur',
+        selectSizeFirst: 'Veuillez choisir la taille',
+        selectColorFirst: 'Veuillez choisir la couleur'
     },
     en: {
         siteName: 'NovaFashion',
@@ -138,7 +154,15 @@ const translations = {
         reviewPlaceholder: 'Your review (optional)',
         submitRating: 'Submit Rating',
         ratingSuccess: 'Your rating has been submitted!',
-        ratingError: 'Error submitting rating'
+        ratingError: 'Error submitting rating',
+        size: 'Size',
+        sizes: 'Sizes',
+        color: 'Color',
+        colors: 'Colors',
+        selectSize: 'Select size',
+        selectColor: 'Select color',
+        selectSizeFirst: 'Please select a size',
+        selectColorFirst: 'Please select a color'
     }
 };
 
@@ -155,8 +179,18 @@ function setLanguage(lang) {
     document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
     document.documentElement.lang = lang;
     
-    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-    event.target.classList.add('active');
+    const langNames = { ar: 'عربي', fr: 'Français', en: 'English' };
+    const langBtn = document.getElementById('currentLang');
+    if (langBtn) {
+        langBtn.textContent = langNames[lang];
+    }
+}
+
+function cycleLanguage() {
+    const languages = ['ar', 'fr', 'en'];
+    const currentIndex = languages.indexOf(currentLang);
+    const nextIndex = (currentIndex + 1) % languages.length;
+    setLanguage(languages[nextIndex]);
 }
 
 function updatePageLanguage() {

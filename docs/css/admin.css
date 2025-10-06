@@ -591,3 +591,58 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+.delivery-prices-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.delivery-item {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    border: 1px solid rgba(255, 8, 68, 0.3);
+}
+
+.wilaya-info {
+    flex: 1;
+    color: var(--white);
+}
+
+.price-edit {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.option-group {
+    margin: 15px 0;
+}
+
+.option-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: var(--white);
+}
+
+.option-group select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 8, 68, 0.5);
+    font-size: 16px;
+    background: rgba(0, 0, 0, 0.3);
+    color: var(--white);
+}
+
+.product-sizes, .product-colors {
+    margin: 5px 0;
+    color: rgba(255, 255, 255, 0.8);
+}

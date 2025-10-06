@@ -16,9 +16,76 @@ async function loadProducts() {
 
 function addProductToCart(productId) {
     const product = allProducts.find(p => p.id === productId);
-    if (product) {
+    if (!product) return;
+    
+    if (product.sizes || product.colors) {
+        showSizeColorModal(product);
+    } else {
         addToCart(product);
     }
+}
+
+function showSizeColorModal(product) {
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.id = 'sizeColorModal';
+    modal.style.display = 'block';
+    
+    modal.innerHTML = `
+        <div class="modal-content">
+            <span class="close" onclick="document.getElementById('sizeColorModal').remove()">&times;</span>
+            <h2>${product.name[currentLang]}</h2>
+            ${product.sizes ? `
+                <div class="option-group">
+                    <label>${translations[currentLang].size || 'المقاس'}:</label>
+                    <select id="selectedSize" required>
+                        <option value="">${translations[currentLang].selectSize || 'اختر المقاس'}</option>
+                        ${product.sizes.map(size => `<option value="${size}">${size}</option>`).join('')}
+                    </select>
+                </div>
+            ` : ''}
+            ${product.colors ? `
+                <div class="option-group">
+                    <label>${translations[currentLang].color || 'اللون'}:</label>
+                    <select id="selectedColor" required>
+                        <option value="">${translations[currentLang].selectColor || 'اختر اللون'}</option>
+                        ${product.colors.map(color => `<option value="${color}">${color}</option>`).join('')}
+                    </select>
+                </div>
+            ` : ''}
+            <button class="btn" onclick="confirmAddToCart(${product.id})">${translations[currentLang].addToCart}</button>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+}
+
+function confirmAddToCart(productId) {
+    const product = allProducts.find(p => p.id === productId);
+    if (!product) return;
+    
+    const productToAdd = { ...product };
+    
+    if (product.sizes) {
+        const selectedSize = document.getElementById('selectedSize')?.value;
+        if (!selectedSize) {
+            alert(translations[currentLang].selectSizeFirst || 'الرجاء اختيار المقاس');
+            return;
+        }
+        productToAdd.selectedSize = selectedSize;
+    }
+    
+    if (product.colors) {
+        const selectedColor = document.getElementById('selectedColor')?.value;
+        if (!selectedColor) {
+            alert(translations[currentLang].selectColorFirst || 'الرجاء اختيار اللون');
+            return;
+        }
+        productToAdd.selectedColor = selectedColor;
+    }
+    
+    addToCart(productToAdd);
+    document.getElementById('sizeColorModal')?.remove();
 }
 
 function displayProducts(productsToShow = products) {
@@ -30,6 +97,8 @@ function displayProducts(productsToShow = products) {
             <img src="${product.image}" alt="${product.name[currentLang]}" loading="lazy">
             <h3>${product.name[currentLang]}</h3>
             <p class="product-description">${product.description[currentLang]}</p>
+            ${product.sizes ? `<div class="product-sizes"><small>${translations[currentLang].sizes || 'المقاسات'}: ${product.sizes.join(', ')}</small></div>` : ''}
+            ${product.colors ? `<div class="product-colors"><small>${translations[currentLang].colors || 'الألوان'}: ${product.colors.join(', ')}</small></div>` : ''}
             <div class="product-price">${product.price} ${translations[currentLang].currency}</div>
             <div class="product-rating">
                 ${getStarRating(product.rating || 0)}

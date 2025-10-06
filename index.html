@@ -1,123 +1,0 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NovaFashion - متجر الأناقة</title>
-    <link rel="stylesheet" href="public/css/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-</head>
-<body>
-    <header>
-        <div class="container">
-            <a href="admin.html" class="logo-link" title="لوحة الإدارة">
-                <img src="public/images/logo.png" alt="Nova Fashion" class="logo-image">
-            </a>
-            <nav>
-                <ul>
-                    <li><a href="/" data-i18n="home" class="active">الرئيسية</a></li>
-                    <li><a href="products.html" data-i18n="products">المنتجات</a></li>
-                    <li><a href="about.html" data-i18n="about">عن المتجر</a></li>
-                    <li><a href="contact.html" data-i18n="contact">اتصل بنا</a></li>
-                    <li><a href="#" class="cart-icon" onclick="showCart()" data-count="0">🛒 <span data-i18n="cart">السلة</span></a></li>
-                </ul>
-            </nav>
-            <div class="language-switcher">
-                <button onclick="toggleLanguage()" class="lang-btn" id="langToggle">عربي</button>
-            </div>
-        </div>
-    </header>
-
-    <section id="home" class="hero">
-        <div class="hero-overlay"></div>
-        <div class="hero-text">
-            <h2 data-i18n="heroTitle">أحدث صيحات الموضة بين يديك</h2>
-            <p data-i18n="heroSubtitle">اكتشف تشكيلتنا المميزة من الألبسة العصرية</p>
-            <a href="products.html" class="btn" data-i18n="shopNow">تسوق الآن</a>
-        </div>
-    </section>
-
-    <section class="location-section">
-        <div class="container">
-            <h2 data-i18n="visitUs">زوروا متجرنا</h2>
-            <p data-i18n="locationDesc">نحن في انتظاركم في موقعنا لتجربة تسوق فريدة</p>
-            <div class="map-container">
-                <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d212.8576654534997!2d3.0524536854158654!3d36.75290859812842!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fb267d6f621a7%3A0x8d01aae364846e99!2sNovaFashion!5e0!3m2!1sen!2sdz!4v1696599000000!5m2!1sen!2sdz"
-                    width="100%" 
-                    height="450" 
-                    style="border:0;" 
-                    allowfullscreen="" 
-                    loading="lazy" 
-                    referrerpolicy="no-referrer-when-downgrade">
-                </iframe>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        <p data-i18n="footer">© 2025 NovaFashion. جميع الحقوق محفوظة.</p>
-    </footer>
-
-    <div id="cartModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="hideCart()">&times;</span>
-            <h2 data-i18n="cartTitle">سلة التسوق</h2>
-            <div id="cartItems"></div>
-            <div class="cart-summary">
-                <div class="summary-row">
-                    <span data-i18n="total">المجموع</span>
-                    <span id="cartTotal">0</span> <span data-i18n="currency">دج</span>
-                </div>
-                <div class="summary-row">
-                    <span data-i18n="deliveryPrice">سعر التوصيل</span>
-                    <span id="deliveryPrice">0</span> <span data-i18n="currency">دج</span>
-                </div>
-                <div class="summary-row grand-total">
-                    <span data-i18n="grandTotal">المجموع الكلي</span>
-                    <span id="grandTotal">0</span> <span data-i18n="currency">دج</span>
-                </div>
-            </div>
-            <button class="btn" onclick="showCheckout()" data-i18n="checkout">إتمام الطلب</button>
-        </div>
-    </div>
-
-    <div id="checkoutModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="hideCheckout()">&times;</span>
-            <h2 data-i18n="checkout">إتمام الطلب</h2>
-            <form id="checkoutForm" onsubmit="submitOrder(event)">
-                <input type="text" name="name" data-i18n="name" placeholder="الاسم" required>
-                <input type="tel" name="phone" data-i18n="phone" placeholder="رقم الهاتف" required>
-                <input type="email" name="email" data-i18n="email" placeholder="البريد الإلكتروني" required>
-                <select id="wilaya" name="wilaya" required>
-                    <option value="" data-i18n="selectWilaya">اختر الولاية</option>
-                </select>
-                <textarea name="address" data-i18n="address" placeholder="العنوان" required></textarea>
-                
-                <div class="checkout-summary">
-                    <div class="summary-row">
-                        <span data-i18n="total">المجموع</span>
-                        <span id="checkoutTotal">0</span> <span data-i18n="currency">دج</span>
-                    </div>
-                    <div class="summary-row">
-                        <span data-i18n="deliveryPrice">سعر التوصيل</span>
-                        <span id="checkoutDelivery">0</span> <span data-i18n="currency">دج</span>
-                    </div>
-                    <div class="summary-row grand-total">
-                        <span data-i18n="grandTotal">المجموع الكلي</span>
-                        <span id="checkoutGrandTotal">0</span> <span data-i18n="currency">دج</span>
-                    </div>
-                </div>
-                
-                <button type="submit" class="btn" data-i18n="send">إرسال</button>
-            </form>
-        </div>
-    </div>
-
-    <script src="public/js/translations.js"></script>
-    <script src="public/js/cart.js"></script>
-</body>
-</html>

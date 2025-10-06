@@ -3,7 +3,7 @@ let allProducts = [];
 
 async function loadProducts() {
     try {
-        const response = await fetch('data/products.json');
+        const response = await fetch('./data/products.json');
         const data = await response.json();
         allProducts = data;
         products = data;

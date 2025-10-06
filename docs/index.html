@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NovaFashion - متجر الأناقة</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="admin.html" class="logo-link" title="لوحة الإدارة">
+                <img src="images/logo.png" alt="Nova Fashion" class="logo-image">
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="#home" data-i18n="home">الرئيسية</a></li>
+                    <li><a href="#products" data-i18n="products">المنتجات</a></li>
+                    <li><a href="#about" data-i18n="about">عن المتجر</a></li>
+                    <li><a href="#contact" data-i18n="contact">اتصل بنا</a></li>
+                    <li><a href="#" class="cart-icon" onclick="showCart()" data-count="0">🛒 <span data-i18n="cart">السلة</span></a></li>
+                </ul>
+            </nav>
+            <div class="language-switcher">
+                <button onclick="setLanguage('ar')" class="lang-btn active" title="العربية">عربي</button>
+                <button onclick="setLanguage('fr')" class="lang-btn" title="Français">Français</button>
+                <button onclick="setLanguage('en')" class="lang-btn" title="English">English</button>
+            </div>
+        </div>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-text">
+            <h2 data-i18n="heroTitle">أحدث صيحات الموضة بين يديك</h2>
+            <p data-i18n="heroSubtitle">اكتشف تشكيلتنا المميزة من الألبسة العصرية</p>
+            <a href="#products" class="btn" data-i18n="shopNow">تسوق الآن</a>
+        </div>
+    </section>
+
+    <section id="products" class="products">
+        <h2 data-i18n="ourProducts">منتجاتنا</h2>
+        
+        <div class="filters-container">
+            <div class="search-box">
+                <input type="text" id="searchInput" data-i18n="searchPlaceholder" placeholder="ابحث عن منتج..." oninput="filterProducts()">
+            </div>
+            <div class="filters">
+                <select id="categoryFilter" onchange="filterProducts()">
+                    <option value="" data-i18n="allCategories">جميع الفئات</option>
+                </select>
+                <select id="priceFilter" onchange="filterProducts()">
+                    <option value="" data-i18n="allPrices">جميع الأسعار</option>
+                    <option value="0-2000">0 - 2000 دج</option>
+                    <option value="2000-5000">2000 - 5000 دج</option>
+                    <option value="5000-10000">5000 - 10000 دج</option>
+                    <option value="10000+">10000+ دج</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="product-grid" id="productGrid"></div>
+    </section>
+
+    <section id="about" class="about">
+        <h2 data-i18n="aboutTitle">عن NovaFashion</h2>
+        <p data-i18n="aboutText">NovaFashion هو متجر أزياء عصري يقدم لك أحدث صيحات الموضة مع ضمان الجودة والأناقة. تسوق بسهولة واستمتع بتجربة فريدة.</p>
+    </section>
+
+    <section id="contact" class="contact">
+        <h2 data-i18n="contactTitle">اتصل بنا</h2>
+        <form onsubmit="submitContact(event)">
+            <input type="text" data-i18n="name" placeholder="الاسم" required>
+            <input type="email" data-i18n="email" placeholder="البريد الإلكتروني" required>
+            <input type="tel" data-i18n="phone" placeholder="رقم الهاتف" required>
+            <textarea data-i18n="message" placeholder="رسالتك" required></textarea>
+            <button type="submit" class="btn" data-i18n="send">إرسال</button>
+        </form>
+    </section>
+
+    <footer>
+        <p data-i18n="footer">© 2025 NovaFashion. جميع الحقوق محفوظة.</p>
+    </footer>
+
+    <div id="cartModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="hideCart()">&times;</span>
+            <h2 data-i18n="cartTitle">سلة التسوق</h2>
+            <div id="cartItems"></div>
+            <div class="cart-summary">
+                <div class="summary-row">
+                    <span data-i18n="total">المجموع</span>
+                    <span id="cartTotal">0</span> <span data-i18n="currency">دج</span>
+                </div>
+                <div class="summary-row">
+                    <span data-i18n="deliveryPrice">سعر التوصيل</span>
+                    <span id="deliveryPrice">0</span> <span data-i18n="currency">دج</span>
+                </div>
+                <div class="summary-row grand-total">
+                    <span data-i18n="grandTotal">المجموع الكلي</span>
+                    <span id="grandTotal">0</span> <span data-i18n="currency">دج</span>
+                </div>
+            </div>
+            <button class="btn" onclick="showCheckout()" data-i18n="checkout">إتمام الطلب</button>
+        </div>
+    </div>
+
+    <div id="checkoutModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="hideCheckout()">&times;</span>
+            <h2 data-i18n="checkout">إتمام الطلب</h2>
+            <form id="checkoutForm" onsubmit="submitOrder(event)">
+                <input type="text" name="name" data-i18n="name" placeholder="الاسم" required>
+                <input type="tel" name="phone" data-i18n="phone" placeholder="رقم الهاتف" required>
+                <input type="email" name="email" data-i18n="email" placeholder="البريد الإلكتروني" required>
+                <select id="wilaya" name="wilaya" required>
+                    <option value="" data-i18n="selectWilaya">اختر الولاية</option>
+                </select>
+                <textarea name="address" data-i18n="address" placeholder="العنوان" required></textarea>
+                
+                <div class="checkout-summary">
+                    <div class="summary-row">
+                        <span data-i18n="total">المجموع</span>
+                        <span id="checkoutTotal">0</span> <span data-i18n="currency">دج</span>
+                    </div>
+                    <div class="summary-row">
+                        <span data-i18n="deliveryPrice">سعر التوصيل</span>
+                        <span id="checkoutDelivery">0</span> <span data-i18n="currency">دج</span>
+                    </div>
+                    <div class="summary-row grand-total">
+                        <span data-i18n="grandTotal">المجموع الكلي</span>
+                        <span id="checkoutGrandTotal">0</span> <span data-i18n="currency">دج</span>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn" data-i18n="send">إرسال</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="ratingModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="hideRatingModal()">&times;</span>
+            <h2 data-i18n="rateProduct">قيّم المنتج</h2>
+            <p id="ratingProductName" class="product-name-rating"></p>
+            <form id="ratingForm" onsubmit="submitRating(event)">
+                <input type="hidden" id="ratingProductId" name="productId">
+                <div class="rating-input">
+                    <label data-i18n="rating">التقييم:</label>
+                    <select name="rating" required>
+                        <option value="">اختر التقييم</option>
+                        <option value="5">★★★★★ ممتاز</option>
+                        <option value="4">★★★★☆ جيد جداً</option>
+                        <option value="3">★★★☆☆ جيد</option>
+                        <option value="2">★★☆☆☆ مقبول</option>
+                        <option value="1">★☆☆☆☆ ضعيف</option>
+                    </select>
+                </div>
+                <textarea name="review" data-i18n="reviewPlaceholder" placeholder="اكتب رأيك (اختياري)" rows="4"></textarea>
+                <button type="submit" class="btn" data-i18n="submitRating">إرسال التقييم</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/translations.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

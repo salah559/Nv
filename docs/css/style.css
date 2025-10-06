@@ -903,6 +903,70 @@ footer {
     }
 }
 
+.variant-selector .option-group {
+    margin: 25px 0;
+}
+
+.variant-selector .option-group label {
+    display: block;
+    margin-bottom: 12px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--white);
+}
+
+.color-options, .size-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.color-btn, .size-btn {
+    padding: 10px 20px;
+    border: 2px solid #ddd;
+    background: var(--white);
+    color: #333;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    min-width: 60px;
+    text-align: center;
+}
+
+.color-btn:hover, .size-btn:hover {
+    border-color: var(--primary-red);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 8, 68, 0.3);
+}
+
+.color-btn.selected, .size-btn.selected {
+    background: var(--primary-red);
+    color: var(--white);
+    border-color: var(--primary-red);
+    box-shadow: 0 4px 15px rgba(255, 8, 68, 0.5);
+}
+
+.variant-selector .add-to-cart-btn {
+    width: 100%;
+    margin-top: 25px;
+    padding: 15px;
+    font-size: 1.1rem;
+    background: linear-gradient(135deg, var(--primary-red), var(--secondary-red));
+    border: none;
+    color: var(--white);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.variant-selector .add-to-cart-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 8, 68, 0.5);
+}
+
 @media (max-width: 768px) {
     header .container {
         flex-direction: column;
@@ -928,5 +992,11 @@ footer {
     
     .filters select {
         width: 100%;
+    }
+    
+    .color-btn, .size-btn {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+        min-width: 50px;
     }
 }

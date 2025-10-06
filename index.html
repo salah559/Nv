@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" >
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NovaFashion - لوحة التحكم</title>
+    <link rel="stylesheet" <!-- removed missing asset: href="./css/admin.css?v=20251006201306" -->>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="loginScreen" class="login-screen">
+        <div class="login-box">
+            <h1>NovaFashion</h1>
+            <h2>لوحة التحكم</h2>
+            <form id="loginForm" onsubmit="login(event)">
+                <input type="text" id="username" placeholder="اسم المستخدم" required>
+                <input type="password" id="password" placeholder="كلمة المرور" required>
+                <button type="submit" class="btn">تسجيل الدخول</button>
+            </form>
+            <p class="login-hint">حساب المالك: salah55 / salaho55</p>
+        </div>
+    </div>
+
+    <div id="adminPanel" class="admin-panel" style="display:none;">
+        <header>
+            <h1>NovaFashion - لوحة التحكم</h1>
+            <div class="header-actions">
+                <a href="./index.html" class="btn">عودة للمتجر</a>
+                <button onclick="logout()" class="btn btn-danger">تسجيل الخروج</button>
+            </div>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('dashboard')">لوحة المعلومات</button>
+            <button class="tab-btn" onclick="showTab('products')">المنتجات</button>
+            <button class="tab-btn" onclick="showTab('orders')">الطلبات</button>
+            <button class="tab-btn" onclick="showTab('delivery')">أسعار التوصيل</button>
+        </div>
+
+        <div id="dashboardTab" class="tab-content active">
+            <div class="section-header">
+                <h2>لوحة المعلومات</h2>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">📦</div>
+                    <div class="stat-info">
+                        <h3 id="totalProducts">0</h3>
+                        <p>إجمالي المنتجات</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🛒</div>
+                    <div class="stat-info">
+                        <h3 id="totalOrders">0</h3>
+                        <p>إجمالي الطلبات</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">💰</div>
+                    <div class="stat-info">
+                        <h3 id="totalRevenue">0 دج</h3>
+                        <p>إجمالي المبيعات</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⏳</div>
+                    <div class="stat-info">
+                        <h3 id="pendingOrders">0</h3>
+                        <p>طلبات قيد الانتظار</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dashboard-section">
+                <h3>حالة الطلبات</h3>
+                <div class="orders-status">
+                    <div class="status-item">
+                        <span>قيد الانتظار:</span>
+                        <strong id="statusPending">0</strong>
+                    </div>
+                    <div class="status-item">
+                        <span>مؤكد:</span>
+                        <strong id="statusConfirmed">0</strong>
+                    </div>
+                    <div class="status-item">
+                        <span>تم التوصيل:</span>
+                        <strong id="statusDelivered">0</strong>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dashboard-section">
+                <h3>أحدث الطلبات</h3>
+                <div id="recentOrders"></div>
+            </div>
+            
+            <div class="dashboard-section">
+                <h3>أكثر المنتجات طلباً</h3>
+                <div id="topProducts"></div>
+            </div>
+        </div>
+
+        <div id="productsTab" class="tab-content">
+            <div class="section-header">
+                <h2>إدارة المنتجات</h2>
+                <button onclick="showAddProduct()" class="btn">+ إضافة منتج جديد</button>
+            </div>
+            <div id="productsList" class="items-grid"></div>
+        </div>
+
+        <div id="ordersTab" class="tab-content">
+            <div class="section-header">
+                <h2>إدارة الطلبات</h2>
+            </div>
+            <div id="ordersList" class="orders-list"></div>
+        </div>
+
+        <div id="deliveryTab" class="tab-content">
+            <div class="section-header">
+                <h2>إدارة أسعار التوصيل</h2>
+            </div>
+            <div id="deliveryPricesList" class="delivery-list"></div>
+        </div>
+    </div>
+
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeProductModal()">&times;</span>
+            <h2 id="productModalTitle">إضافة منتج جديد</h2>
+            <form id="productForm" onsubmit="saveProduct(event)">
+                <input type="hidden" id="productId">
+                <label>اسم المنتج (عربي)</label>
+                <input type="text" id="nameAr" required>
+                <label>اسم المنتج (فرنسي)</label>
+                <input type="text" id="nameFr" required>
+                <label>اسم المنتج (إنجليزي)</label>
+                <input type="text" id="nameEn" required>
+                
+                <label>الوصف (عربي)</label>
+                <textarea id="descAr" required></textarea>
+                <label>الوصف (فرنسي)</label>
+                <textarea id="descFr" required></textarea>
+                <label>الوصف (إنجليزي)</label>
+                <textarea id="descEn" required></textarea>
+                
+                <label>السعر (دج)</label>
+                <input type="number" id="price" required>
+                
+                <label>رابط الصورة</label>
+                <input type="url" id="image" required>
+                
+                <label>الفئة</label>
+                <select id="category" required>
+                    <option value="men">رجالي</option>
+                    <option value="women">نسائي</option>
+                    <option value="shoes">أحذية</option>
+                    <option value="winter">شتوي</option>
+                    <option value="accessories">إكسسوارات</option>
+                </select>
+                
+                <label>المقاسات المتاحة (افصل بفاصلة)</label>
+                <input type="text" id="sizes" placeholder="مثال: S, M, L, XL">
+                <small>اتركه فارغاً إذا لم تكن المقاسات مطلوبة</small>
+                
+                <label>الألوان المتاحة (افصل بفاصلة)</label>
+                <input type="text" id="colors" placeholder="مثال: أحمر, أزرق, أسود">
+                <small>اتركه فارغاً إذا لم تكن الألوان مطلوبة</small>
+                
+                <button type="submit" class="btn">حفظ</button>
+            </form>
+        </div>
+    </div>
+
+    <script <!-- removed missing asset: src="./js/admin.js?v=20251006201306" -->></script>
+</body>
+</html>

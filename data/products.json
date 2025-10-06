@@ -94,6 +94,8 @@
     },
     "price": 4200,
     "image": "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=400&h=500&fit=crop",
-    "category": "men"
+    "category": "men",
+    "sizes": ["S", "M", "L", "XL", "XXL"],
+    "colors": ["أزرق", "أسود", "رمادي"]
   }
 ]

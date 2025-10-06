@@ -1,0 +1,36 @@
+[
+  {
+    "id": 1,
+    "customer": {
+      "name": "Salah Bouazza",
+      "phone": "+213541480285",
+      "email": "bouazzasalah120120@gmail.com",
+      "wilaya": "5",
+      "address": "457322 York House"
+    },
+    "items": [
+      {
+        "id": 1,
+        "name": {
+          "ar": "قميص رجالي كلاسيكي",
+          "fr": "Chemise Homme Classique",
+          "en": "Classic Men's Shirt"
+        },
+        "description": {
+          "ar": "قميص رجالي عصري بجودة عالية",
+          "fr": "Chemise moderne pour homme de haute qualité",
+          "en": "High-quality modern men's shirt"
+        },
+        "price": 3500,
+        "image": "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400&h=500&fit=crop",
+        "category": "men",
+        "quantity": 1
+      }
+    ],
+    "total": 3500,
+    "deliveryPrice": 600,
+    "grandTotal": 4100,
+    "status": "pending",
+    "createdAt": "2025-10-06T20:50:48.299Z"
+  }
+]

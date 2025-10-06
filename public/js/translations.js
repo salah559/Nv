@@ -154,9 +154,26 @@ function setLanguage(lang) {
     updatePageLanguage();
     document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
     document.documentElement.lang = lang;
-    
-    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-    event.target.classList.add('active');
+    updateLanguageButton();
+}
+
+function toggleLanguage() {
+    const languages = ['ar', 'fr', 'en'];
+    const currentIndex = languages.indexOf(currentLang);
+    const nextIndex = (currentIndex + 1) % languages.length;
+    setLanguage(languages[nextIndex]);
+}
+
+function updateLanguageButton() {
+    const langButton = document.getElementById('langToggle');
+    if (langButton) {
+        const langNames = {
+            'ar': 'عربي',
+            'fr': 'Français',
+            'en': 'English'
+        };
+        langButton.textContent = langNames[currentLang];
+    }
 }
 
 function updatePageLanguage() {
@@ -173,3 +190,7 @@ function updatePageLanguage() {
         displayProducts();
     }
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    updateLanguageButton();
+});

@@ -32,8 +32,8 @@ function loadDashboard() {
 }
 
 function calculateStats() {
-    const allOrders = JSON.parse(localStorage.getItem('orders') || '[]');
-    const allProducts = JSON.parse(localStorage.getItem('adminProducts') || '[]');
+    const allOrders = orders || [];
+    const allProducts = products || [];
     
     const totalRevenue = allOrders.reduce((sum, order) => sum + (order.grandTotal || 0), 0);
     
@@ -101,17 +101,31 @@ function displayDashboard(stats) {
     document.getElementById('topProducts').innerHTML = topProductsHTML || '<p>لا توجد مبيعات بعد</p>';
 }
 
-function login(e) {
+async function login(e) {
     e.preventDefault();
     const username = document.getElementById('username').value.trim();
     const password = document.getElementById('password').value.trim();
     
-    if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
-        authToken = 'admin-token-' + Date.now();
+    try {
+        const response = await fetch('/api/admin/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+        });
+        
+        if (!response.ok) {
+            const error = await response.json();
+            alert(error.error || 'بيانات الدخول غير صحيحة');
+            return;
+        }
+        
+        const data = await response.json();
+        authToken = data.token;
         localStorage.setItem('adminToken', authToken);
         showAdmin();
-    } else {
-        alert('بيانات الدخول غير صحيحة');
+    } catch (err) {
+        console.error('خطأ في تسجيل الدخول:', err);
+        alert('حدث خطأ في الاتصال بالخادم');
     }
 }
 
@@ -159,9 +173,37 @@ function displayProducts() {
     `).join('');
 }
 
-function loadOrders() {
-    orders = JSON.parse(localStorage.getItem('orders') || '[]');
-    displayOrders();
+async function loadOrders() {
+    if (!authToken) {
+        orders = [];
+        displayOrders();
+        return;
+    }
+    
+    try {
+        const response = await fetch('/api/orders', {
+            headers: { 
+                'Authorization': `Bearer ${authToken}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        if (response.status === 401 || response.status === 403) {
+            logout();
+            return;
+        }
+        
+        if (!response.ok) {
+            throw new Error('فشل تحميل الطلبات');
+        }
+        
+        orders = await response.json();
+        displayOrders();
+    } catch (err) {
+        console.error('خطأ في تحميل الطلبات:', err);
+        orders = [];
+        displayOrders();
+    }
 }
 
 function displayOrders() {
@@ -210,13 +252,36 @@ function getStatusText(status) {
     return statusMap[status] || status;
 }
 
-function updateOrderStatus(orderId, newStatus) {
-    const order = orders.find(o => o.id === orderId);
-    if (order) {
-        order.status = newStatus;
-        localStorage.setItem('orders', JSON.stringify(orders));
-        loadOrders();
-        loadDashboard();
+async function updateOrderStatus(orderId, newStatus) {
+    if (!authToken) {
+        alert('يجب تسجيل الدخول أولاً');
+        return;
+    }
+    
+    try {
+        const response = await fetch(`/api/orders/${orderId}`, {
+            method: 'PUT',
+            headers: { 
+                'Authorization': `Bearer ${authToken}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ status: newStatus })
+        });
+        
+        if (response.status === 401 || response.status === 403) {
+            logout();
+            return;
+        }
+        
+        if (!response.ok) {
+            throw new Error('فشل تحديث حالة الطلب');
+        }
+        
+        await loadOrders();
+        await loadDashboard();
+    } catch (err) {
+        console.error('خطأ في تحديث حالة الطلب:', err);
+        alert('حدث خطأ في تحديث حالة الطلب');
     }
 }
 

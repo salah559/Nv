@@ -32,32 +32,50 @@ function showSizeColorModal(product) {
     modal.style.display = 'block';
     
     modal.innerHTML = `
-        <div class="modal-content">
+        <div class="modal-content variant-selector">
             <span class="close" onclick="document.getElementById('sizeColorModal').remove()">&times;</span>
             <h2>${product.name[currentLang]}</h2>
-            ${product.sizes ? `
-                <div class="option-group">
-                    <label>${translations[currentLang].size || 'المقاس'}:</label>
-                    <select id="selectedSize" required>
-                        <option value="">${translations[currentLang].selectSize || 'اختر المقاس'}</option>
-                        ${product.sizes.map(size => `<option value="${size}">${size}</option>`).join('')}
-                    </select>
-                </div>
-            ` : ''}
             ${product.colors ? `
                 <div class="option-group">
                     <label>${translations[currentLang].color || 'اللون'}:</label>
-                    <select id="selectedColor" required>
-                        <option value="">${translations[currentLang].selectColor || 'اختر اللون'}</option>
-                        ${product.colors.map(color => `<option value="${color}">${color}</option>`).join('')}
-                    </select>
+                    <div class="color-options">
+                        ${product.colors.map(color => `
+                            <button class="color-btn" data-color="${color}" onclick="selectColor('${color}')">
+                                ${color}
+                            </button>
+                        `).join('')}
+                    </div>
                 </div>
             ` : ''}
-            <button class="btn" onclick="confirmAddToCart(${product.id})">${translations[currentLang].addToCart}</button>
+            ${product.sizes ? `
+                <div class="option-group">
+                    <label>${translations[currentLang].size || 'المقاس'}:</label>
+                    <div class="size-options">
+                        ${product.sizes.map(size => `
+                            <button class="size-btn" data-size="${size}" onclick="selectSize('${size}')">
+                                ${size}
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+            ` : ''}
+            <button class="btn add-to-cart-btn" onclick="confirmAddToCart(${product.id})">${translations[currentLang].addToCart}</button>
         </div>
     `;
     
     document.body.appendChild(modal);
+}
+
+function selectColor(color) {
+    document.querySelectorAll('.color-btn').forEach(btn => btn.classList.remove('selected'));
+    const selectedBtn = document.querySelector(`.color-btn[data-color="${color}"]`);
+    if (selectedBtn) selectedBtn.classList.add('selected');
+}
+
+function selectSize(size) {
+    document.querySelectorAll('.size-btn').forEach(btn => btn.classList.remove('selected'));
+    const selectedBtn = document.querySelector(`.size-btn[data-size="${size}"]`);
+    if (selectedBtn) selectedBtn.classList.add('selected');
 }
 
 function confirmAddToCart(productId) {
@@ -66,22 +84,22 @@ function confirmAddToCart(productId) {
     
     const productToAdd = { ...product };
     
-    if (product.sizes) {
-        const selectedSize = document.getElementById('selectedSize')?.value;
-        if (!selectedSize) {
-            alert(translations[currentLang].selectSizeFirst || 'الرجاء اختيار المقاس');
-            return;
-        }
-        productToAdd.selectedSize = selectedSize;
-    }
-    
     if (product.colors) {
-        const selectedColor = document.getElementById('selectedColor')?.value;
-        if (!selectedColor) {
+        const selectedColorBtn = document.querySelector('.color-btn.selected');
+        if (!selectedColorBtn) {
             alert(translations[currentLang].selectColorFirst || 'الرجاء اختيار اللون');
             return;
         }
-        productToAdd.selectedColor = selectedColor;
+        productToAdd.selectedColor = selectedColorBtn.dataset.color;
+    }
+    
+    if (product.sizes) {
+        const selectedSizeBtn = document.querySelector('.size-btn.selected');
+        if (!selectedSizeBtn) {
+            alert(translations[currentLang].selectSizeFirst || 'الرجاء اختيار المقاس');
+            return;
+        }
+        productToAdd.selectedSize = selectedSizeBtn.dataset.size;
     }
     
     addToCart(productToAdd);

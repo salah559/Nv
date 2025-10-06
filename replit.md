@@ -162,6 +162,45 @@ All 58 Algerian wilayas are supported, including the 10 newest wilayas added in 
 - El M'Ghair (57)
 - El Meniaa (58)
 
+## GitHub Pages Deployment
+
+### ✅ الموقع جاهز للنشر على GitHub Pages
+المشروع معد بشكل كامل للنشر على GitHub Pages بطريقتين:
+
+#### الطريقة 1: GitHub Actions (موصى بها)
+1. ارفع المشروع إلى GitHub
+2. اذهب إلى **Settings > Pages**
+3. في **Source**، اختر **GitHub Actions**
+4. سيتم النشر تلقائياً عند كل push
+
+#### الطريقة 2: من مجلد docs
+1. ارفع المشروع إلى GitHub
+2. اذهب إلى **Settings > Pages**
+3. في **Source**، اختر **Deploy from a branch**
+4. اختر: Branch: **main**, Folder: **/docs**
+
+### هيكل النشر
+```
+docs/                       # المجلد المخصص للنشر على GitHub Pages
+├── index.html             # الصفحة الرئيسية
+├── admin.html             # لوحة الإدارة
+├── css/                   # ملفات التنسيق
+├── js/                    # ملفات JavaScript
+├── data/                  # البيانات (منتجات + ولايات)
+├── images/                # الصور
+└── .nojekyll              # لتعطيل Jekyll
+
+.github/workflows/
+└── deploy.yml             # GitHub Actions workflow للنشر التلقائي
+```
+
+### ملاحظات مهمة للنشر
+- ✅ جميع المسارات نسبية وتبدأ بـ `./`
+- ✅ ملف `.nojekyll` موجود لتعطيل Jekyll
+- ✅ ملف `algeria-locations.json` مضاف لنظام التوصيل
+- ✅ لا توجد ملفات مكررة خارج مجلد docs
+- ✅ GitHub Actions workflow جاهز للنشر التلقائي
+
 ## Recent Changes
 
 ### 2025-10-06 (Latest Update): GitHub Pages Compatibility

@@ -15,10 +15,10 @@ author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "workflow.run"
-args = "NovaFashion Server"
+args = "Server"
 
 [[workflows.workflow]]
-name = "NovaFashion Server"
+name = "Server"
 author = "agent"
 
 [[workflows.workflow.tasks]]
@@ -34,7 +34,7 @@ localPort = 5000
 externalPort = 80
 
 [[ports]]
-localPort = 39329
+localPort = 33963
 externalPort = 3002
 
 [[ports]]

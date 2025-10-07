@@ -107,7 +107,7 @@ async function login(e) {
     const password = document.getElementById('password').value.trim();
     
     try {
-        const response = await fetch('/api/admin/login', {
+        const response = await fetch(getApiUrl('/api/admin/login'), {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, password })
@@ -181,7 +181,7 @@ async function loadOrders() {
     }
     
     try {
-        const response = await fetch('/api/orders', {
+        const response = await fetch(getApiUrl('/api/orders'), {
             headers: { 
                 'Authorization': `Bearer ${authToken}`,
                 'Content-Type': 'application/json'
@@ -259,7 +259,7 @@ async function updateOrderStatus(orderId, newStatus) {
     }
     
     try {
-        const response = await fetch(`/api/orders/${orderId}`, {
+        const response = await fetch(getApiUrl(`/api/orders/${orderId}`), {
             method: 'PUT',
             headers: { 
                 'Authorization': `Bearer ${authToken}`,

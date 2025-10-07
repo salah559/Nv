@@ -101,35 +101,26 @@ function displayDashboard(stats) {
     document.getElementById('topProducts').innerHTML = topProductsHTML || '<p>لا توجد مبيعات بعد</p>';
 }
 
+
 async function login(e) {
     e.preventDefault();
     const username = document.getElementById('username').value.trim();
     const password = document.getElementById('password').value.trim();
-    
-    try {
-        const response = await fetch(getApiUrl('/api/admin/login'), {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, password })
-        });
-        
-        if (!response.ok) {
-            const error = await response.json();
-            alert(error.error || 'بيانات الدخول غير صحيحة');
-            return;
-        }
-        
-        const data = await response.json();
-        authToken = data.token;
+
+    // Local (insecure) check to allow GitHub Pages usage
+    if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
+        const fakeToken = btoa(`${username}:${Date.now()}`); // fake token
+        authToken = fakeToken;
         localStorage.setItem('adminToken', authToken);
         showAdmin();
-    } catch (err) {
-        console.error('خطأ في تسجيل الدخول:', err);
-        alert('حدث خطأ في الاتصال بالخادم');
+    } else {
+        alert('بيانات الدخول غير صحيحة');
     }
 }
 
-function logout() {
+// continue to logout function
+function logout()
+ {
     authToken = null;
     localStorage.removeItem('adminToken');
     showLogin();

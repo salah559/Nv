@@ -66,5 +66,53 @@
     "grandTotal": 4100,
     "status": "pending",
     "createdAt": "2025-10-07T01:01:35.351Z"
+  },
+  {
+    "id": 3,
+    "customer": {
+      "name": "Salah Bouazza",
+      "phone": "0541480285",
+      "email": "bouazzasalah120120@gmail.com",
+      "wilaya": "5",
+      "address": "457322 York House"
+    },
+    "items": [
+      {
+        "id": 6,
+        "name": {
+          "ar": "بنطلون جينز",
+          "fr": "Pantalon Jean",
+          "en": "Jeans Pants"
+        },
+        "description": {
+          "ar": "بنطلون جينز كلاسيكي مريح",
+          "fr": "Pantalon jean classique et confortable",
+          "en": "Classic comfortable jeans"
+        },
+        "price": 4200,
+        "image": "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=400&h=500&fit=crop",
+        "category": "men",
+        "sizes": [
+          "30",
+          "32",
+          "34",
+          "36",
+          "38"
+        ],
+        "colors": [
+          "أزرق فاتح",
+          "أزرق داكن",
+          "أسود"
+        ],
+        "selectedColor": "أزرق داكن",
+        "selectedSize": "32",
+        "quantity": 1
+      }
+    ],
+    "total": 4200,
+    "deliveryPrice": 600,
+    "grandTotal": 4800,
+    "status": "pending",
+    "createdAt": "2025-10-07T01:17:24.238Z"
   }
 ]

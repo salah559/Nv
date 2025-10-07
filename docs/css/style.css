@@ -22,6 +22,59 @@ body {
     background-attachment: fixed;
     color: var(--white);
     min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 50%, rgba(255, 8, 68, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 20%, rgba(255, 51, 102, 0.08) 0%, transparent 50%);
+    animation: bgPulse 15s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+
+body::after {
+    content: '';
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background-image: 
+        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255, 215, 0, 0.03) 2px, rgba(255, 215, 0, 0.03) 4px),
+        repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255, 8, 68, 0.03) 2px, rgba(255, 8, 68, 0.03) 4px);
+    animation: gridMove 20s linear infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+
+@keyframes bgPulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.8;
+        transform: scale(1.1);
+    }
+}
+
+@keyframes gridMove {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    100% {
+        transform: translate(50px, 50px) rotate(5deg);
+    }
 }
 
 header {
@@ -1174,5 +1227,87 @@ footer {
         padding: 8px 15px;
         font-size: 0.9rem;
         min-width: 50px;
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+@keyframes sparkle {
+    0%, 100% {
+        opacity: 0;
+        transform: scale(0);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+header, .hero, .products, .about, .contact, footer,
+.modal-content, .product-card, .cart-modal {
+    position: relative;
+    z-index: 10;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+    animation: float 6s ease-in-out infinite;
+    pointer-events: none;
+}
+
+.sparkle {
+    position: fixed;
+    width: 4px;
+    height: 4px;
+    background: var(--accent-gold);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 5;
+    box-shadow: 0 0 10px var(--accent-gold);
+    animation: sparkle 3s ease-in-out infinite;
+}
+
+.light-beam {
+    position: fixed;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent, rgba(255, 215, 0, 0.3), transparent);
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0.3;
+    animation: beamMove 8s linear infinite;
+}
+
+@keyframes beamMove {
+    0% {
+        transform: translateX(-100vw);
+    }
+    100% {
+        transform: translateX(100vw);
     }
 }

@@ -178,7 +178,7 @@ async function submitOrder(e) {
     };
     
     try {
-        const response = await fetch('/api/orders', {
+        const response = await fetch(getApiUrl('/api/orders'), {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(orderData)

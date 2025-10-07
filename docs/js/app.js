@@ -14,15 +14,68 @@ async function loadProducts() {
     }
 }
 
+function selectProductColor(productId, color) {
+    const productCard = document.getElementById(`product-${productId}`);
+    if (!productCard) return;
+    
+    const colorButtons = productCard.querySelectorAll('.color-option');
+    colorButtons.forEach(btn => btn.classList.remove('selected'));
+    
+    const selectedBtn = productCard.querySelector(`.color-option[data-color="${color}"]`);
+    if (selectedBtn) {
+        selectedBtn.classList.add('selected');
+    }
+}
+
+function selectProductSize(productId, size) {
+    const productCard = document.getElementById(`product-${productId}`);
+    if (!productCard) return;
+    
+    const sizeButtons = productCard.querySelectorAll('.size-option');
+    sizeButtons.forEach(btn => btn.classList.remove('selected'));
+    
+    const selectedBtn = productCard.querySelector(`.size-option[data-size="${size}"]`);
+    if (selectedBtn) {
+        selectedBtn.classList.add('selected');
+    }
+}
+
 function addProductToCart(productId) {
     const product = allProducts.find(p => p.id === productId);
     if (!product) return;
     
-    if (product.sizes || product.colors) {
-        showSizeColorModal(product);
-    } else {
-        addToCart(product);
+    const productCard = document.getElementById(`product-${productId}`);
+    const productToAdd = { ...product };
+    
+    if (product.colors) {
+        const selectedColorBtn = productCard.querySelector('.color-option.selected');
+        if (!selectedColorBtn) {
+            alert(translations[currentLang].selectColorFirst || 'الرجاء اختيار اللون أولاً');
+            const colorSelector = productCard.querySelector('.color-selector');
+            if (colorSelector) {
+                colorSelector.classList.add('shake');
+                setTimeout(() => colorSelector.classList.remove('shake'), 500);
+            }
+            return;
+        }
+        productToAdd.selectedColor = selectedColorBtn.dataset.color;
     }
+    
+    if (product.sizes) {
+        const selectedSizeBtn = productCard.querySelector('.size-option.selected');
+        if (!selectedSizeBtn) {
+            alert(translations[currentLang].selectSizeFirst || 'الرجاء اختيار المقاس أولاً');
+            const sizeSelector = productCard.querySelector('.size-selector');
+            if (sizeSelector) {
+                sizeSelector.classList.add('shake');
+                setTimeout(() => sizeSelector.classList.remove('shake'), 500);
+            }
+            return;
+        }
+        productToAdd.selectedSize = selectedSizeBtn.dataset.size;
+    }
+    
+    addToCart(productToAdd);
 }
 
 function showSizeColorModal(product) {
@@ -111,12 +164,44 @@ function displayProducts(productsToShow = products) {
     if (!grid) return;
     
     grid.innerHTML = productsToShow.map(product => `
-        <div class="product-card">
+        <div class="product-card" id="product-${product.id}">
             <img src="${product.image}" alt="${product.name[currentLang]}" loading="lazy">
             <h3>${product.name[currentLang]}</h3>
             <p class="product-description">${product.description[currentLang]}</p>
-            ${product.sizes ? `<div class="product-sizes"><small>${translations[currentLang].sizes || 'المقاسات'}: ${product.sizes.join(', ')}</small></div>` : ''}
-            ${product.colors ? `<div class="product-colors"><small>${translations[currentLang].colors || 'الألوان'}: ${product.colors.join(', ')}</small></div>` : ''}
+            
+            ${product.colors ? `
+                <div class="product-options">
+                    <label class="option-label">${translations[currentLang].color || 'اللون'}:</label>
+                    <div class="color-selector">
+                        ${product.colors.map(color => `
+                            <button class="color-option" 
+                                    data-product-id="${product.id}" 
+                                    data-color="${color}"
+                                    onclick="selectProductColor(${product.id}, '${color}')"
+                                    title="${color}">
+                                <span class="color-name">${color}</span>
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+            ` : ''}
+            
+            ${product.sizes ? `
+                <div class="product-options">
+                    <label class="option-label">${translations[currentLang].size || 'المقاس'}:</label>
+                    <div class="size-selector">
+                        ${product.sizes.map(size => `
+                            <button class="size-option" 
+                                    data-product-id="${product.id}" 
+                                    data-size="${size}"
+                                    onclick="selectProductSize(${product.id}, '${size}')">
+                                ${size}
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+            ` : ''}
+            
             <div class="product-price">${product.price} ${translations[currentLang].currency}</div>
             <div class="product-rating">
                 ${getStarRating(product.rating || 0)}

@@ -13,7 +13,9 @@
     },
     "price": 3500,
     "image": "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400&h=500&fit=crop",
-    "category": "men"
+    "category": "men",
+    "sizes": ["S", "M", "L", "XL", "XXL"],
+    "colors": ["أبيض", "أزرق", "أسود", "رمادي"]
   },
   {
     "id": 2,
@@ -30,7 +32,9 @@
     "price": 5500,
     "image": "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400&h=500&fit=crop",
     "category": "women",
-    "updatedAt": "2025-10-05T22:29:24.836Z"
+    "updatedAt": "2025-10-05T22:29:24.836Z",
+    "sizes": ["S", "M", "L", "XL"],
+    "colors": ["أحمر", "أسود", "وردي", "أزرق داكن"]
   },
   {
     "id": 3,
@@ -62,7 +66,9 @@
     },
     "price": 6000,
     "image": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=500&fit=crop",
-    "category": "shoes"
+    "category": "shoes",
+    "sizes": ["39", "40", "41", "42", "43", "44"],
+    "colors": ["أبيض", "أسود", "أزرق", "أحمر"]
   },
   {
     "id": 5,
@@ -94,6 +100,8 @@
     },
     "price": 4200,
     "image": "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=400&h=500&fit=crop",
-    "category": "men"
+    "category": "men",
+    "sizes": ["30", "32", "34", "36", "38"],
+    "colors": ["أزرق فاتح", "أزرق داكن", "أسود"]
   }
 ]

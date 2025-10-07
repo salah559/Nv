@@ -967,6 +967,182 @@ footer {
     box-shadow: 0 8px 25px rgba(255, 8, 68, 0.5);
 }
 
+.product-options {
+    margin: 20px 0;
+    text-align: right;
+}
+
+.option-label {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--accent-gold);
+    margin-bottom: 12px;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+    letter-spacing: 0.5px;
+}
+
+.color-selector, .size-selector {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    padding: 10px;
+    background: rgba(255, 8, 68, 0.05);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 8, 68, 0.2);
+}
+
+.color-option, .size-option {
+    padding: 12px 20px;
+    border: 2px solid rgba(255, 8, 68, 0.4);
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(255, 8, 68, 0.1));
+    color: var(--white);
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+    min-width: 70px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+}
+
+.color-option::before, .size-option::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 215, 0, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.4s, height 0.4s;
+}
+
+.color-option:hover::before, .size-option:hover::before {
+    width: 200px;
+    height: 200px;
+}
+
+.color-option:hover, .size-option:hover {
+    transform: translateY(-3px) scale(1.05);
+    border-color: var(--accent-gold);
+    box-shadow: 0 8px 20px rgba(255, 8, 68, 0.4), 0 0 15px rgba(255, 215, 0, 0.3);
+}
+
+.color-option.selected, .size-option.selected {
+    background: linear-gradient(135deg, var(--primary-red), var(--secondary-red));
+    border-color: var(--accent-gold);
+    color: var(--white);
+    transform: scale(1.1);
+    box-shadow: 0 10px 25px rgba(255, 8, 68, 0.6), 0 0 20px rgba(255, 215, 0, 0.5);
+    font-weight: 800;
+}
+
+.color-option.selected::after, .size-option.selected::after {
+    content: '✓';
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    width: 24px;
+    height: 24px;
+    background: var(--accent-gold);
+    color: var(--black);
+    border-radius: 50%;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    box-shadow: 0 2px 10px rgba(255, 215, 0, 0.5);
+}
+
+.color-name {
+    position: relative;
+    z-index: 1;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.shake {
+    animation: shake 0.5s;
+    border-color: var(--primary-red) !important;
+    box-shadow: 0 0 20px rgba(255, 8, 68, 0.8) !important;
+}
+
+.product-price {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--accent-gold);
+    margin: 20px 0 15px;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+.product-description {
+    color: rgba(255, 255, 255, 0.85);
+    margin: 15px 0;
+    font-size: 1.05rem;
+    line-height: 1.6;
+}
+
+.product-rating {
+    color: var(--accent-gold);
+    font-size: 1.3rem;
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.rating-count {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.product-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    flex-direction: column;
+}
+
+.add-to-cart, .btn-rate {
+    padding: 14px 25px;
+    border-radius: 12px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.add-to-cart {
+    background: linear-gradient(135deg, var(--primary-red), var(--secondary-red));
+    color: var(--white);
+}
+
+.btn-rate {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 8, 68, 0.2));
+    color: var(--accent-gold);
+    border: 2px solid var(--accent-gold);
+}
+
+.add-to-cart:hover, .btn-rate:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 10px 25px rgba(255, 8, 68, 0.6);
+}
+
 @media (max-width: 768px) {
     header .container {
         flex-direction: column;
